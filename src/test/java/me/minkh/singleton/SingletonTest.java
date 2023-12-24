@@ -1,4 +1,4 @@
-package me.minkh.singleton.v1;
+package me.minkh.singleton;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +21,9 @@ class SingletonTest {
 
     @Test
     void test2() {
-        ExecutorService threadPool = Executors.newFixedThreadPool(100);
+        ExecutorService threadPool = Executors.newFixedThreadPool(1000);
         Set<Singleton> set = ConcurrentHashMap.newKeySet();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             threadPool.submit(() -> {
                 set.add(Singleton.getInstance());
             });
