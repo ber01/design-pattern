@@ -1,4 +1,4 @@
-package me.minkh.singleton;
+package me.minkh.singleton.v1;
 
 public class Singleton {
 
