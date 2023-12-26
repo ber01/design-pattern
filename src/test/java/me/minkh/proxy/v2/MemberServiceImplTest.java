@@ -1,7 +1,10 @@
 package me.minkh.proxy.v2;
 
+import me.minkh.proxy.v3.TimingInvocationHandler;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Proxy;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,6 +30,20 @@ class MemberServiceImplTest {
         memberServiceImplProxy.save(member3);
 
         assertThat(memberService.findAll().size()).isEqualTo(6);
+    }
+
+    @Test
+    void dynamicProxyTest() {
+        MemberService memberService = new MemberServiceImpl(); // 실제 서비스 객체
+        MemberService proxy = (MemberService) Proxy.newProxyInstance(
+                MemberService.class.getClassLoader(),
+                new Class<?>[]{MemberService.class},
+                new TimingInvocationHandler(memberService));
+
+        Member member = new Member("홍길동", 29);
+        proxy.save(member);
+        proxy.findById(1L);
+        proxy.findAll();
     }
 
 }
