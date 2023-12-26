@@ -1,0 +1,32 @@
+package me.minkh.proxy.v2;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+
+class MemberServiceImplTest {
+
+    @Test
+    void test() {
+        MemberService memberService = new MemberServiceImpl();
+
+        Member member1 = new Member("홍길동", 29);
+        Member member2 = new Member("김영희", 13);
+        Member member3 = new Member("박철수", 34);
+
+        memberService.save(member1);
+        memberService.save(member2);
+        memberService.save(member3);
+
+        assertThat(memberService.findAll().size()).isEqualTo(3);
+
+        MemberServiceImplProxy memberServiceImplProxy = new MemberServiceImplProxy(memberService);
+        memberServiceImplProxy.save(member1);
+        memberServiceImplProxy.save(member2);
+        memberServiceImplProxy.save(member3);
+
+        assertThat(memberService.findAll().size()).isEqualTo(6);
+    }
+
+}
